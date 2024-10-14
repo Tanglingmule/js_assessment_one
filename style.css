@@ -1,0 +1,96 @@
+/* General page styling */
+body {
+    font-family: 'Verdana', sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: #e0e0e0;
+    margin: 0;
+    transition: background-color 0.3s ease;
+}
+
+/* Header styling */
+h1 {
+    color: #444;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Container styling */
+.container {
+    margin-top: 30px;
+}
+
+/* Button styling */
+.btn {
+    padding: 12px 25px;
+    margin: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(45deg, green, lightgreen);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    background: linear-gradient(45deg, lightgreen, green);
+    transform: scale(1.05);
+}
+
+#clearColorsBtn {
+    background: linear-gradient(45deg, #ff6347, #ff4500);
+}
+
+#clearColorsBtn:hover {
+    background: linear-gradient(45deg, #e55347, #d93d00);
+}
+
+/* Color preview container */
+.color-previews {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Message styling */
+#noColorsMsg {
+    color: #666;
+    font-style: italic;
+}
+
+/* Color preview styling */
+.color-preview {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    margin: 8px;
+    border-radius: 15%;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+/* Hover effect for color previews */
+.color-preview:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Animation for adding color previews */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.color-preview {
+    animation: fadeIn 0.5s;
+}
