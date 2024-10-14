@@ -94,3 +94,8 @@ h1 {
 .color-preview {
     animation: fadeIn 0.5s;
 }
+
+.color-previews p {
+    display: block; /* Ensure it's a block element */
+    color: black; /* Change color as needed */
+}

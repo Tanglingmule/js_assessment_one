@@ -1,72 +1,67 @@
-// Cache DOM elements
-const generateColorBtn = document.getElementById("generateColorBtn");
-const clearColorsBtn = document.getElementById("clearColorsBtn");
-const colorPreviewList = document.getElementById("colorPreviewList");
-const noColorsMsg = document.getElementById("noColorsMsg");
+const generateButton = document.getElementById('generateColorBtn'); // Updated ID
+const clearButton = document.getElementById('clearColorsBtn'); // Updated ID
+const previewContainer = document.getElementById('colorPreviewList'); // Updated ID
+const noColorsMessage = document.getElementById('noColorsMsg'); // Updated ID
 
-// State to keep track of generated colors
-let generatedColors = [];
-let currentBackgroundColor = "#e0e0e0";
+let colors = []; // Array to store generated colors
+let lastGeneratedColor = ''; // To track the last generated color
 
-// Helper function to generate a random hex color
-const generateRandomColor = () => {
-    return `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
-};
+// Function to generate a random color
+function generateRandomColor() {
+    const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+    return randomColor;
+}
 
-// Helper function to update the background color of the page
-const updateBackgroundColor = (color) => {
-    document.body.style.backgroundColor = color;
-    currentBackgroundColor = color;
-};
-
-// Function to display or hide the "No colours generated yet" message
-const toggleNoColorsMessage = () => {
-    noColorsMsg.style.display = generatedColors.length === 0 ? "block" : "none";
-};
-
-// Function to create a color preview element and add event listeners
-const createColorPreviewElement = (color) => {
-    const colorDiv = document.createElement("div");
-    colorDiv.className = "color-preview";
-    colorDiv.style.backgroundColor = color;
-
-    // Mouseover event: temporarily change the background color
-    colorDiv.addEventListener("mouseover", () => updateBackgroundColor(color));
-
-    // Mouseout event: revert to the most recently generated color
-    colorDiv.addEventListener("mouseout", () => updateBackgroundColor(currentBackgroundColor));
-
-    return colorDiv;
-};
-
-// Function to add a new color preview to the list
-const addColorPreview = (color) => {
-    if (!generatedColors.includes(color)) {
-        generatedColors.push(color);
-        const colorDiv = createColorPreviewElement(color);
-        colorPreviewList.appendChild(colorDiv);
-        toggleNoColorsMessage();
-    }
-};
-
-// Function to generate a new color and update the background
-const generateColor = () => {
+// Function to update the background color and previews
+function updateColor() {
     const newColor = generateRandomColor();
-    updateBackgroundColor(newColor);
-    addColorPreview(newColor);
-};
 
-// Function to clear all color previews and reset the background
-const clearColors = () => {
-    generatedColors = [];
-    colorPreviewList.innerHTML = "";
-    updateBackgroundColor("#e0e0e0");
-    toggleNoColorsMessage();
-};
+    // Prevent duplicates
+    if (!colors.includes(newColor)) {
+        colors.push(newColor);
+        lastGeneratedColor = newColor;
+        document.body.style.backgroundColor = newColor;
+        updatePreviewList();
+    } else {
+        updateColor(); // Retry if duplicate
+    }
+}
 
-// Set up event listeners
-generateColorBtn.addEventListener("click", generateColor);
-clearColorsBtn.addEventListener("click", clearColors);
+// Function to update the color preview list
+function updatePreviewList() {
+    previewContainer.innerHTML = ''; // Clear current previews
 
-// Initialize
-toggleNoColorsMessage();
+    colors.forEach(color => {
+        const colorDiv = document.createElement('div');
+        colorDiv.className = 'color-preview';
+        colorDiv.style.backgroundColor = color;
+
+        // Add mouseover and mouseout events
+        colorDiv.addEventListener('mouseover', () => {
+            document.body.style.backgroundColor = color;
+        });
+
+        colorDiv.addEventListener('mouseout', () => {
+            document.body.style.backgroundColor = lastGeneratedColor;
+        });
+
+        previewContainer.appendChild(colorDiv);
+    });
+
+    // If there are colors, hide the message
+    if (colors.length > 0) {
+        noColorsMessage.style.display = 'none';
+    }
+}
+
+// Function to clear colors
+function clearColors() {
+    colors = [];
+    lastGeneratedColor = '';
+    previewContainer.innerHTML = '<p id="noColorsMsg">No colors generated yet.</p>'; // Updated message
+    document.body.style.backgroundColor = ''; // Reset background
+}
+
+// Event listeners
+generateButton.addEventListener('click', updateColor);
+clearButton.addEventListener('click', clearColors);
